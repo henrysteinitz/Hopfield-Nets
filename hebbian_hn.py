@@ -1,5 +1,6 @@
 import numpy as np
-from utils import tanh, scale, unscale, scale_factors
+from utils import tanh, scale, unscale, scale_factors, sign
+from time import sleep
 
 class HebbianHopfieldNet:
 
@@ -21,8 +22,8 @@ class HebbianHopfieldNet:
                     weights[j][i] = weights[i][j]
         self.weights = weights
 
-    def play(self, input, steps=10000, precision=2):
+    def play(self, input, steps=10000):
         memory = scale(np.array(input), *self.scale_factors)
         for i in range(steps):
-            memory = tanh(np.matmul(self.weights, memory))
-        return np.round(unscale(memory, *self.scale_factors), decimals=precision)
+            memory = sign(tanh((np.matmul(self.weights, memory))))
+        return unscale(memory, *self.scale_factors)

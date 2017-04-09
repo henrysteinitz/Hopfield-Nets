@@ -16,3 +16,6 @@ def scale_factors(patterns):
     m = 2 / (max - min)
     b = 1 - (m*max)
     return (m, b)
+
+def sign(tensor):
+    return (np.round((tensor + 1) * .5, decimals=0) * 2) - 1
